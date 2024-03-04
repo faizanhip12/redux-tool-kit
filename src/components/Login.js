@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 import { userRoles, signup, getUser } from '../services/auth';
 import { useParams, useNavigate } from 'react-router-dom';
+import {useAuth} from '../context/AuthContext'
 import Toast from './Toast'
 
 function Login() {
+    const { login } = useAuth(); // Use useAuth hook to access login function
     const {
         register,
         handleSubmit,
@@ -27,6 +29,9 @@ function Login() {
     let navigate = useNavigate();
 
     const submitForm = async (data) => {
+
+        // const {login, logout, setUser,user } = useAuth()
+        console.log("user ",user )
 
         const userData = getUser()
             .then((res) => {
@@ -65,6 +70,7 @@ function Login() {
                 // console.log("signup success", res.data)
                 setMessage(`${emailFind.email} suucess login`)
                 showToast(true)
+                login(emailFind); // Update user data in context
                 navigate('/tutorials')
             }
             else{

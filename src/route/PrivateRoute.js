@@ -2,24 +2,17 @@ import React from 'react';
 import { Navigate, Route } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-const PrivateRoute = ({ roles, ...props }) => {
+const PrivateRoute = ({ roles, props,children }) => {
   const { user } = useAuth();
 
+  console.log(" user khan ", user )
+  console.log(" roles khan ", roles )
+  console.log(" props khan ", props )
+  console.log(" children  khan ", children  )
 
   // Check if user is authenticated and has required role
   const isAuthenticated = user !== null;
   const hasRequiredRole = roles ? roles.includes(user?.role) : true;
-
-// const mockUser = {
-//     id: "1",
-//     username: 'exampleUser',
-//     role: 'admin' // Assign a static role for testing
-//   };
-//   console.log("role",roles)
-//   console.log("props",props)
-
-  // Check if user is authenticated and has required role
-
 
   if (!isAuthenticated) {
     return <Navigate to="/login" />;
@@ -29,9 +22,9 @@ const PrivateRoute = ({ roles, ...props }) => {
     return <Navigate to="/" />;
   }
 
-
-
-  return <Route {...props} />;
+  // Render the Route component with the given props
+  // return <Route {...props} />;
+  return children;
 };
 
 export default PrivateRoute;
