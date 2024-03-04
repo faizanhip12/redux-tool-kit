@@ -14,7 +14,9 @@ function Login() {
 
     const [roles, setRoles] = useState([]);
 
-    const [user, setUser] = useState([]);
+    const [user, setUser] = useState();
+
+    const [email, setEmail] = useState(null);
 
     const [error, setError] = useState("")
 
@@ -24,37 +26,55 @@ function Login() {
 
     let navigate = useNavigate();
 
-    const submitForm = (data) => {
-        console.log("datadatadatadatadata", data)
-        getUser(data)
+    const submitForm = async (data) => {
+
+        const userData = getUser()
             .then((res) => {
-                console.log(res)
-                setUser(() => res.data)
-                setMessage(() => `${res.data.email} is alredy exits`)
-                showToast(true)
+                console.log(res.data)
+                console.log("data", data.email)
+                // let data =res.data
 
 
-                return res
+                const findEmail = res.data.find(user => user.email == data.email.toString());
+                console.log("findEmail", findEmail)
+
+                setEmail(findEmail.email);
+
+                // console.log("email email", email)
+
+
+                return findEmail
             })
             .catch((err) => {
                 console.log(err)
-                // setError(()=>)
+                setMessage(`${err.message}`)
+                showToast(true)
+
 
             })
-        console.log("user")
-        if (user) {
-            console.log(`${user} alredy exits`)
+        console.log("user", userData)
+        const emailFind = await userData
+        console.log("emailFind", emailFind)
+        if (emailFind) {
+            // showToast(true)
+            // console.log("email email", email)
+            // setMessage(`${emailFind.email} is alredy exits`)
+            // showToast(true)
+            // console.log(`${user.email} alredy exits`)
+            if (emailFind.password == data.password) {
+                // console.log("signup success", res.data)
+                setMessage(`${emailFind.email} suucess login`)
+                showToast(true)
+                navigate('/tutorials')
+            }
+            else{
+                setMessage(`${emailFind.email} password doesn't match`)
+                showToast(true)
+            }
         }
         else {
-            signup(data)
-                .then((res) => {
-                    console.log("signup success", res.data)
-                    navigate("/tutorials");
-                    // console.log("data", currentTutorial.id)
-                })
-                .catch((err) => {
-                    console.log("err", err)
-                })
+            setMessage(`${data.email} email not found please register first then login`)
+            showToast(true)
         }
 
 
@@ -105,14 +125,14 @@ function Login() {
               <input {...register('password', { required: true })} className="form-control" />
               {errors.password && <p>Please enter password.</p>}
           </div> */}
-                <div className="mb-3">
+                {/* <div className="mb-3">
                     <select {...register('role', { required: true })} className="form-control" id="exampleFormControlSelect1">
                         {roles && roles.map(role => (
                             <option key={role.id} value={role.id}>{role.role}</option>
                         ))}
                     </select>
                     {errors.role && <p>Please select a role.</p>}
-                </div>
+                </div> */}
 
                 <button className="btn btn-success">Submit</button>
 

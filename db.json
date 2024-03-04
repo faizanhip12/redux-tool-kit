@@ -149,96 +149,30 @@
     {
       "id": "451b",
       "email": "farhan.ali@oip.com.pk",
-      "password": "hello",
+      "password": "password",
       "role": "2"
     },
     {
-      "id": "c178",
-      "email": "farhan.ali@oip.com.pk",
-      "password": "hello",
+      "id": "638c",
+      "email": "farhanali2014ce@gmail.com",
+      "password": "password",
       "role": "2"
     },
     {
-      "id": "ad65",
-      "email": "farhan.ali@oip.com.pk",
-      "password": "hello",
+      "id": "4b84",
+      "email": "ali@gmail.com",
+      "password": "password",
+      "role": "3"
+    },
+    {
+      "id": "a4c2",
+      "email": "khan@gmail.com",
+      "password": "password",
       "role": "2"
     },
     {
-      "id": "85f8",
-      "email": "farhan.ali@oip.com.pk",
-      "password": "hello",
-      "role": "2"
-    },
-    {
-      "id": "e026",
-      "email": "farhan.ali@oip.com.pk",
-      "password": "hello",
-      "role": "2"
-    },
-    {
-      "id": "8fb5",
-      "email": "farhan.ali@oip.com.pk",
-      "password": "hello",
-      "role": "2"
-    },
-    {
-      "id": "cc51",
-      "email": "farhan.ali@oip.com.pk",
-      "password": "hello",
-      "role": "2"
-    },
-    {
-      "id": "3f02",
-      "email": "farhan.ali@oip.com.pk",
-      "password": "hello",
-      "role": "2"
-    },
-    {
-      "id": "bac2",
-      "email": "farhan.ali@oip.com.pk",
-      "password": "hello",
-      "role": "2"
-    },
-    {
-      "id": "a7ce",
-      "email": "farhan.ali@oip.com.pk",
-      "password": "hello",
-      "role": "2"
-    },
-    {
-      "id": "08b7",
-      "email": "farhan.ali@oip.com.pk",
-      "password": "hello",
-      "role": "2"
-    },
-    {
-      "id": "267b",
-      "email": "farhan.ali@oip.com.pk",
-      "password": "hello",
-      "role": "2"
-    },
-    {
-      "id": "6b05",
-      "email": "farhan.ali@oip.com.pk",
-      "password": "hello",
-      "role": "2"
-    },
-    {
-      "id": "1584",
-      "email": "farhan.ali@oip.com.pk",
-      "password": "hello",
-      "role": "2"
-    },
-    {
-      "id": "cbfb",
-      "email": "farhan.ali@oip.com.pk",
-      "password": "hello",
-      "role": "2"
-    },
-    {
-      "id": "dffc",
-      "email": "nasar.ullah@oip.com.pk",
+      "id": "da0d",
+      "email": "abdul@gmail.com",
       "password": "password",
       "role": "2"
     }

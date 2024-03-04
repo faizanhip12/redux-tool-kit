@@ -26,41 +26,49 @@ function Signup() {
 
     let navigate = useNavigate();
 
-    const submitForm = (data) => {
-        console.log("datadatadatadatadata", data)
-        getUser()
+    const submitForm = async(data) => {
+
+        const userData = getUser()
             .then((res) => {
                 console.log(res.data)
+                console.log("data", data.email)
                 // let data =res.data
 
 
-                const findEmail = res.data.find(user => user.email == data.email);
+                const findEmail = res.data.find(user => user.email == data.email.toString());
                 console.log("findEmail", findEmail)
-                
-                setEmail(findEmail !== undefined ? findEmail : null);
-               
-               
+
+                setEmail(findEmail.email);
+
+                // console.log("email email", email)
 
 
-                return res
+                return findEmail
             })
             .catch((err) => {
                 console.log(err)
-                // setError(()=>)
+                setMessage(`${err.message}`)
+                showToast(true)
+
 
             })
-        // console.log("user",user.email)
-        if (email) {
+        console.log("user",userData)
+          const emailFind = await userData
+          console.log("emailFind",emailFind)
+        if (emailFind) {
             // showToast(true)
-            // setMessage(`${user.email} is alredy exits`)
+            console.log("email email", email)
+            setMessage(`${emailFind.email} is alredy exits`)
+            showToast(true)
             // console.log(`${user.email} alredy exits`)
         }
         else {
             signup(data)
                 .then((res) => {
                     console.log("signup success", res.data)
-                    // navigate("/login");
-                    // console.log("data", currentTutorial.id)
+                    setMessage(`${email.email} is alredy exits`)
+                    showToast(true)
+                    navigate('/login')
                 })
                 .catch((err) => {
                     console.log("err", err)
