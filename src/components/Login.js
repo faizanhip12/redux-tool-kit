@@ -6,7 +6,7 @@ import {useAuth} from '../context/AuthContext'
 import Toast from './Toast'
 
 function Login() {
-    const { login } = useAuth(); // Use useAuth hook to access login function
+    const { login,seetUser } = useAuth(); // Use useAuth hook to access login function
     const {
         register,
         handleSubmit,
@@ -71,6 +71,7 @@ function Login() {
                 setMessage(`${emailFind.email} suucess login`)
                 showToast(true)
                 login(emailFind); // Update user data in context
+                seetUser(emailFind)
                 navigate('/tutorials')
             }
             else{

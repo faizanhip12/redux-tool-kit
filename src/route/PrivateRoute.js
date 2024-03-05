@@ -2,17 +2,27 @@ import React from 'react';
 import { Navigate, Route } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-const PrivateRoute = ({ roles, props,children }) => {
-  const { user } = useAuth();
+const PrivateRoute = ({ roles, children }) => {
+  let { userData } = useAuth();
 
-  console.log(" user khan ", user )
-  console.log(" roles khan ", roles )
-  console.log(" props khan ", props )
-  console.log(" children  khan ", children  )
+  if (!userData && localStorage.getItem("userData")) {
+    userData = JSON.parse(localStorage.getItem("userData"))
+  }
+  else {
+    const data = localStorage.setItem("userData", JSON.stringify(userData))
+    userData = data
+  }
+
+  console.log(" user khan ", userData)
+  console.log(" roles khan ", roles)
+  // console.log(" props khan ", props )
+  console.log(" children  khan ", children)
 
   // Check if user is authenticated and has required role
-  const isAuthenticated = user !== null;
-  const hasRequiredRole = roles ? roles.includes(user?.role) : true;
+  const isAuthenticated = userData !== null;
+  // const hasRequiredRole = roles ? roles.includes(userData?.role) : true;
+ const hasRequiredRole = true
+  console.log("hasRequiredRole",hasRequiredRole)
 
   if (!isAuthenticated) {
     return <Navigate to="/login" />;

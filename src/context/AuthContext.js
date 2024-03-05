@@ -1,5 +1,5 @@
 // AuthContext.js
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState,useEffect } from 'react';
 
 // Create a context
 const AuthContext = createContext();
@@ -10,6 +10,7 @@ export const useAuth = () => useContext(AuthContext);
 // AuthProvider component
 export const AuthProvider = ({ children }) => {
     const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
     const login = (user) => {
         setUserData(user);
@@ -19,13 +20,17 @@ export const AuthProvider = ({ children }) => {
         setUserData(null);
     };
 
-    const setUser = (user) => {
+    const seetUser = (user) => {
         setUserData(user);
     };
+    useEffect(() => {
+        // Your authentication logic here...
+        setLoading(false); // Set loading to false after authentication check
+    }, []);
     console.log("userData", userData);
 
     return (
-        <AuthContext.Provider value={{ user: userData, login, logout, setUser }}>
+        <AuthContext.Provider value={{ seetUser, login, logout,userData,loading }}>
             {children}
         </AuthContext.Provider>
     );
