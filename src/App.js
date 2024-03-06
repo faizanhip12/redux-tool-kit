@@ -8,10 +8,12 @@ import Tutorial from "./components/Tutorial";
 import TutorialsList from "./components/TutorialsList";
 import Test from './components/Test';
 import Post from "./components/Post";
+import Home from './components/Home'
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import PrivateRoute from './route/PrivateRoute'
 import { useParams, useNavigate, Navigate, useLocation } from 'react-router-dom';
+// import Tutorial from './components/Tutorial'
 
 function App() {
   const { userData, loading } = useAuth() ?? {};
@@ -35,14 +37,23 @@ function App() {
         <Navigation />
         <div className="container mt-3">
           <Routes>
-            <Route path="/" element={<Navigate to="/signup" />} />
+            {/* <Route path="/" element={<Navigate to="/signup" />} /> */}
+            <Route path="/" element={<Home />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
             <Route
               path="/tutorials"
               element={
-                <PrivateRoute roles={['admin']}>
+                <PrivateRoute roles={['admin','user']}>
                   <TutorialsList />
+                </PrivateRoute>
+              }
+            />
+              <Route
+              path="/tutorials/:id"
+              element={
+                <PrivateRoute roles={['admin']}>
+                  <Tutorial />
                 </PrivateRoute>
               }
             />
@@ -116,6 +127,9 @@ function Navigation() {
       <div className="navbar-nav mr-auto">
         {user ? (
           <>
+            <Link to={"/"} className="nav-link">
+                Home
+              </Link>
             <li className="nav-item">
               <Link to={"/tutorials"} className="nav-link">
                 Tutorials

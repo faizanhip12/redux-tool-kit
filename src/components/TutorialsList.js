@@ -11,6 +11,7 @@ const TutorialsList = () => {
   const [currentTutorial, setCurrentTutorial] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [searchTitle, setSearchTitle] = useState("");
+  const [user, setUser] = useState(null)
 
   const tutorials = useSelector(state => state.tutorials);
   // const tutorials = null
@@ -20,12 +21,13 @@ const TutorialsList = () => {
   const onChangeSearchTitle = e => {
     const searchTitle = e.target.value;
     setSearchTitle(searchTitle);
+
   };
 
   const initFetch = useCallback(() => {
     console.log("useCallbackuseCallback")
-    if(tutorials.length == 0){
-      console.log("tutorials",tutorials)
+    if (tutorials.length == 0) {
+      console.log("tutorials", tutorials)
       dispatch(retrieveTutorials());
     }
 
@@ -34,6 +36,8 @@ const TutorialsList = () => {
 
   useEffect(() => {
     initFetch()
+    console.log("useEffect", localStorage.getItem("userData"))
+    setUser(JSON.parse(localStorage.getItem("userData")))
     // console.log("useEffect initFetch()")
   }, [initFetch])
 
@@ -131,13 +135,13 @@ const TutorialsList = () => {
               </label>{" "}
               {currentTutorial.published ? "Published" : "Pending"}
             </div>
-
-            <Link
+            {user.role == 'admin' && <Link
               to={"/tutorials/" + currentTutorial.id}
               className="badge badge-warning"
             >
               Edit
-            </Link>
+            </Link>}
+
           </div>
         ) : (
           <div>

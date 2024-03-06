@@ -159,6 +159,12 @@
       "role": "admin"
     },
     {
+      "id": "u4yg",
+      "email": "user@gmail.com",
+      "password": "password",
+      "role": "user"
+    },
+    {
       "id": "4b84",
       "email": "ali@gmail.com",
       "password": "password",
