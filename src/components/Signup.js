@@ -26,13 +26,13 @@ function Signup() {
 
     let navigate = useNavigate();
 
-    const submitForm = async(data) => {
+    const submitForm = async (data) => {
 
         const userData = getUser()
             .then((res) => {
                 console.log(res.data)
                 console.log("data", data.email)
-                // let data =res.data
+
 
 
                 const findEmail = res.data.find(user => user.email == data.email.toString());
@@ -40,7 +40,7 @@ function Signup() {
 
                 setEmail(findEmail.email);
 
-                // console.log("email email", email)
+
 
 
                 return findEmail
@@ -52,9 +52,9 @@ function Signup() {
 
 
             })
-        console.log("user",userData)
-          const emailFind = await userData
-          console.log("emailFind",emailFind)
+        console.log("user", userData)
+        const emailFind = await userData
+        console.log("emailFind", emailFind)
         if (emailFind) {
             // showToast(true)
             console.log("email email", email)
@@ -101,15 +101,10 @@ function Signup() {
             />
             <form onSubmit={handleSubmit((data) => submitForm(data))}>
 
-                {/* <input {...register('firstName')} />
-        <input {...register('lastName', { required: true })} />
-        {errors.lastName && <p>Last name is required.</p>}
-        <input {...register('age', { pattern: /\d+/ })} />
-        {errors.age && <p>Please enter number for age.</p>}
-        <input type="submit" /> */}
+
                 <div className="mb-3">
                     <label htmlFor="example@gmail.com" className="form-label">Email address</label>
-                    {/* <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com"> */}
+
                     <input {...register('email', { required: true })} className="form-control" />
                     {errors.email && <p>Email is required.</p>}
                 </div>
@@ -118,11 +113,7 @@ function Signup() {
                     <input {...register('password', { required: true })} className="form-control" />
                     {errors.password && <p>Please enter password.</p>}
                 </div>
-                {/* <div className="mb-3">
-              <label htmlFor="password" className="form-label">password</label>
-              <input {...register('password', { required: true })} className="form-control" />
-              {errors.password && <p>Please enter password.</p>}
-          </div> */}
+
                 <div className="mb-3">
                     <select {...register('role', { required: true })} className="form-control" id="exampleFormControlSelect1">
                         {roles && roles.map(role => (

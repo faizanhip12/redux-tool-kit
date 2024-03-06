@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
@@ -11,7 +11,7 @@ import Post from "./components/Post";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import PrivateRoute from './route/PrivateRoute'
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Navigate, useLocation } from 'react-router-dom';
 
 function App() {
   const { userData, loading } = useAuth() ?? {};
@@ -35,7 +35,8 @@ function App() {
         <Navigation />
         <div className="container mt-3">
           <Routes>
-            <Route path="/" element={<Signup />} />
+            <Route path="/" element={<Navigate to="/signup" />} />
+            <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
             <Route
               path="/tutorials"
@@ -55,39 +56,56 @@ function App() {
 
 // Navigation component to handle rendering based on authentication status
 function Navigation() {
-  const { userData } = useAuth() ?? {};
+  const { userData,login,logout } = useAuth() ?? {};
+  console.log("Navigation",userData)
 
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
   let navigate = useNavigate();
+  const location = useLocation();
 
 
-  console.log('typeof userData)typeof userData)typeof userData)', typeof userData);
+  // console.log('typeof userData)typeof userData)typeof userData)', typeof userData);
 
 
   useEffect(() => {
     // localStorage.setItem("userData", JSON.stringify(userData));
-
-
     if (localStorage.getItem("userData")) {
       setUser(JSON.parse(localStorage.getItem("userData")))
-      console.log("localStorage.getItem", userData)
-    } else if (!localStorage.getItem("userData") && userData) {
-      const data = localStorage.setItem("userData", JSON.stringify(userData))
-      userData = JSON.parse(data)
-      console.log("localStorage.getItem", userData)
-    } else if (!userData && localStorage.getItem("userData")) {
-      console.log("!userData && localStorage.getItem(", userData)
-      setUser(JSON.parse(localStorage.getItem("userData")))
-      console.log("localStorage.getItem", userData)
+    } else {
+      if (userData) {
+        const data = localStorage.setItem("userData", JSON.stringify(userData))
+        userData = JSON.parse(data)
+        setUser(JSON.parse(localStorage.getItem("userData")))
+      }
     }
-   
+
+    // if (localStorage.getItem("userData")) {
+    //   setUser(JSON.parse(localStorage.getItem("userData")))
+    //   console.log("localStorage.getItem", userData)
+    // } else if (!localStorage.getItem("userData") && userData) {
+    //   const data = localStorage.setItem("userData", JSON.stringify(userData))
+    //   userData = JSON.parse(data)
+    //   setUser(JSON.parse(localStorage.getItem("userData")))
+    //   console.log("localStorage.getItem", userData)
+    // } else if (!userData && localStorage.getItem("userData")) {
+    //   console.log("!userData && localStorage.getItem(", userData)
+    //   setUser(JSON.parse(localStorage.getItem("userData")))
+    //   console.log("localStorage.getItem", userData)
+    // }
 
 
-  }, [])
 
-  const logOut =()=>{
+  }, [userData])
+
+  console.log("")
+
+  const logOut = () => {
+    console.log("logout")
     localStorage.removeItem("userData")
-    navigate("/login");
+    console.log ("locaction", location)
+    logout(null)
+    setUser(null)
+    navigate('/signup');
   }
 
   return (
@@ -104,9 +122,12 @@ function Navigation() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" onClick={logOut}>
+              <Link className="nav-link" to={"/signup"} onClick={logOut}>
                 logout
               </Link>
+              {/* <a onClick={logOut}>
+                logout
+              </a> */}
             </li>
           </>
         ) : (

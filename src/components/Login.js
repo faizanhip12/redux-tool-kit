@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 import { userRoles, signup, getUser } from '../services/auth';
 import { useParams, useNavigate } from 'react-router-dom';
-import {useAuth} from '../context/AuthContext'
+import { useAuth } from '../context/AuthContext'
 import Toast from './Toast'
 
 function Login() {
-    const { login,seetUser } = useAuth(); // Use useAuth hook to access login function
+    const { login, seetUser } = useAuth(); // Use useAuth hook to access login function
     const {
         register,
         handleSubmit,
@@ -30,23 +30,19 @@ function Login() {
 
     const submitForm = async (data) => {
 
-        // const {login, logout, setUser,user } = useAuth()
-        console.log("user ",user )
+        
 
         const userData = getUser()
             .then((res) => {
-                console.log(res.data)
-                console.log("data", data.email)
-                // let data =res.data
+               
 
 
                 const findEmail = res.data.find(user => user.email == data.email.toString());
-                console.log("findEmail", findEmail)
+               
 
                 setEmail(findEmail.email);
 
-                // console.log("email email", email)
-
+          
 
                 return findEmail
             })
@@ -57,24 +53,20 @@ function Login() {
 
 
             })
-        console.log("user", userData)
+       
         const emailFind = await userData
-        console.log("emailFind", emailFind)
+      
         if (emailFind) {
-            // showToast(true)
-            // console.log("email email", email)
-            // setMessage(`${emailFind.email} is alredy exits`)
-            // showToast(true)
-            // console.log(`${user.email} alredy exits`)
+          
             if (emailFind.password == data.password) {
-                // console.log("signup success", res.data)
+              
                 setMessage(`${emailFind.email} suucess login`)
                 showToast(true)
                 login(emailFind); // Update user data in context
                 seetUser(emailFind)
                 navigate('/tutorials')
             }
-            else{
+            else {
                 setMessage(`${emailFind.email} password doesn't match`)
                 showToast(true)
             }
@@ -91,11 +83,16 @@ function Login() {
             then((res) => {
 
                 setRoles(res.data)
-                console.log("dara", res)
+                
             })
             .catch((err) => {
                 console.log("err", err)
             })
+    }, [])
+    useEffect(() => {
+        if (JSON.parse(localStorage.getItem("userData")) != null) {
+            navigate('/tutorials')
+        }
     }, [])
     const handleCloseToast = () => {
         showToast(false);
@@ -110,15 +107,9 @@ function Login() {
             />
             <form onSubmit={handleSubmit((data) => submitForm(data))}>
 
-                {/* <input {...register('firstName')} />
-        <input {...register('lastName', { required: true })} />
-        {errors.lastName && <p>Last name is required.</p>}
-        <input {...register('age', { pattern: /\d+/ })} />
-        {errors.age && <p>Please enter number for age.</p>}
-        <input type="submit" /> */}
                 <div className="mb-3">
                     <label htmlFor="example@gmail.com" className="form-label">Email address</label>
-                    {/* <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com"> */}
+                
                     <input {...register('email', { required: true })} className="form-control" />
                     {errors.email && <p>Email is required.</p>}
                 </div>
@@ -127,19 +118,7 @@ function Login() {
                     <input {...register('password', { required: true })} className="form-control" />
                     {errors.password && <p>Please enter password.</p>}
                 </div>
-                {/* <div className="mb-3">
-              <label htmlFor="password" className="form-label">password</label>
-              <input {...register('password', { required: true })} className="form-control" />
-              {errors.password && <p>Please enter password.</p>}
-          </div> */}
-                {/* <div className="mb-3">
-                    <select {...register('role', { required: true })} className="form-control" id="exampleFormControlSelect1">
-                        {roles && roles.map(role => (
-                            <option key={role.id} value={role.id}>{role.role}</option>
-                        ))}
-                    </select>
-                    {errors.role && <p>Please select a role.</p>}
-                </div> */}
+               
 
                 <button className="btn btn-success">Submit</button>
 

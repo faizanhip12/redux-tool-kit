@@ -26,8 +26,9 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         // Your authentication logic here...
         setLoading(false); // Set loading to false after authentication check
-    }, []);
-    console.log("userData", userData);
+        
+    }, [userData]);
+    // console.log("userData", userData);
 
     return (
         <AuthContext.Provider value={{ seetUser, login, logout,userData,loading }}>

@@ -10,18 +10,22 @@ const PrivateRoute = ({ roles, children }) => {
   }
   else {
     const data = localStorage.setItem("userData", JSON.stringify(userData))
-    userData = data
+    // userData = data
+     userData = JSON.parse(localStorage.getItem("userData"))
+
   }
 
   console.log(" user khan ", userData)
   console.log(" roles khan ", roles)
   // console.log(" props khan ", props )
-  console.log(" children  khan ", children)
+  console.log(" children  khan ", children.props)
 
   // Check if user is authenticated and has required role
   const isAuthenticated = userData !== null;
-  // const hasRequiredRole = roles ? roles.includes(userData?.role) : true;
- const hasRequiredRole = true
+  console.log("isAuthenticatedisAuthenticatedisAuthenticatedisAuthenticated",isAuthenticated)
+  console.log("userDatauserDatauserDatauserData",userData)
+  const hasRequiredRole = roles ? roles.includes(userData?.role) : true;
+//  const hasRequiredRole = true
   console.log("hasRequiredRole",hasRequiredRole)
 
   if (!isAuthenticated) {
