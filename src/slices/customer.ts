@@ -15,8 +15,9 @@ export const createCustomer = createAsyncThunk(
 export const retrieveCustomers = createAsyncThunk(
   "customers/retrieve",
   async () => {
-    console.log("retrieveretrieveretrieveretrieve")
+
     const res = await CustomerService.getAll();
+    // console.log("retrieveretrieveretrieveretrieve",res)
     return res.data;
   }
 );
@@ -70,7 +71,10 @@ const customerSlice = createSlice({
         state.push(action.payload);
       })
       .addCase(retrieveCustomers.fulfilled, (state, action) => {
+        console.log("statestatestatestatestatestatestate",state);
+        console.log("actionactionactionactionaction",action);
         return action.payload;
+
       })
       .addCase(updateCustomer.fulfilled, (state, action) => {
 

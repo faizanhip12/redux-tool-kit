@@ -17,7 +17,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import {retrieveCustomers} from '../../slices/customer'
+import { retrieveCustomers } from '../../slices/customer'
 import { useDispatch, useSelector } from "react-redux";
 // import DeleteIcon from '@mui/icons-material/Delete';
 // import FilterListIcon from '@mui/icons-material/FilterList';
@@ -163,7 +163,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
       onRequestSort(event, property);
     };
 
-  
+
   return (
     <TableHead>
       <TableRow>
@@ -268,19 +268,19 @@ export default function EnhancedTable() {
 
   // const [customers ,setCustomers] =React.useState()
   //@ts-ignore
-  const customers = useSelector(state => state.customers);
+  const customers = useSelector(state => state.customer);
 
   const [open, setOpen] = React.useState(false);
   const [childModalOpen, setChildModalOpen] = React.useState(false);
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     //@ts-ignore
 
     dispatch(retrieveCustomers())
 
     // const data =retrieveCustomers()
-    console.log("retrieveCustomers()retrieveCustomers()retrieveCustomers()retrieveCustomers()",customers)
-  },[])
+    console.log("retrieveCustomers()retrieveCustomers()retrieveCustomers()retrieveCustomers()", customers)
+  }, [])
 
   const handleOpen = () => {
     setOpen(true);

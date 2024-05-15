@@ -2,7 +2,7 @@ import http from "../interceptor";
 
 const getAll = () => {
   console.log("getAllgetAll")
-  return http.get("/tutorials")
+  return http.get("/customer")
 }
 
 const get = (id:any) => {
