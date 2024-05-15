@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
-import tutorialReducer from './slices/tutorials';
-import postReducer from './slices/posts'
+// import tutorialReducer from './slices/tutorials';
+import customerReducer from '../slices/customer'
 
 const reducer ={
-    tutorials: tutorialReducer,
-    posts:postReducer
+    // tutorials: tutorialReducer,
+    customerss:customerReducer
 }
 
 const store = configureStore({

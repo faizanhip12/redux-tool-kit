@@ -1,77 +1,78 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import TutorialDataService from "../services/TutorialService";
 
-const initialState = [];
+import CustomerService from "../api/services/customer";
 
-export const createTutorial = createAsyncThunk(
-  "tutorials/create",
-  async ({ title, description }) => {
-    const res = await TutorialDataService.create({ title, description });
+const initialState:any[] = [];
+
+export const createCustomer = createAsyncThunk(
+  "customer/create",
+  async (data) => {
+    const res = await CustomerService.create(data);
     return res.data;
   }
 );
 
-export const retrieveTutorials = createAsyncThunk(
-  "tutorials/retrieve",
+export const retrieveCustomers = createAsyncThunk(
+  "customers/retrieve",
   async () => {
     console.log("retrieveretrieveretrieveretrieve")
-    const res = await TutorialDataService.getAll();
+    const res = await CustomerService.getAll();
     return res.data;
   }
 );
 
-export const updateTutorial = createAsyncThunk(
-  "tutorials/update",
+export const updateCustomer = createAsyncThunk(
+  "customer/update",
   async (data) => {
     console.log("tutorials/update",data)
-    const res = await TutorialDataService.update(data);
+    const res = await CustomerService.update(data);
     console.log("tutorials/update",res.data)
     return res.data;
     
   }
 );
 
-export const deleteTutorial = createAsyncThunk(
-  "tutorials/delete",
-  async ({ id }) => {
-    await TutorialDataService.remove(id);
+export const deleteCustomer = createAsyncThunk(
+  "customer/delete",
+  async ( id ) => {
+    await CustomerService.remove(id);
     console.log("res.datares.datares.data",id)
     return { id };
   }
 );
 
-export const deleteAllTutorials = createAsyncThunk(
-  "tutorials/deleteAll",
-  async () => {
-    const res = await TutorialDataService.removeAll();
-    return res.data;
-  }
-);
+// export const deleteAllTutorials = createAsyncThunk(
+//   "tutorials/deleteAll",
+//   async () => {
+//     const res = await TutorialDataService.removeAll();
+//     return res.data;
+//   }
+// );
 
-export const findTutorialsByTitle = createAsyncThunk(
-  "tutorials/findByTitle",
-  async ({ title }) => {
-    const res = await TutorialDataService.findByTitle(title);
-    console.log("res.datares.datares.data",res.data)
-    return res.data;
-  }
-);
+// export const findTutorialsByTitle = createAsyncThunk(
+//   "tutorials/findByTitle",
+//   async ({ title }) => {
+//     const res = await CustomerService.findByTitle(title);
+//     console.log("res.datares.datares.data",res.data)
+//     return res.data;
+//   }
+// );
 
-const tutorialSlice = createSlice({
-  name: "tutorial",
+const customerSlice = createSlice({
+  name: "customer",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(createTutorial.fulfilled, (state, action) => {
+      .addCase(createCustomer.fulfilled, (state, action) => {
         // console.log("state createTutorial.fulfilled,",state)
         // console.log("state createTutorial.fulfilled,",action)
         state.push(action.payload);
       })
-      .addCase(retrieveTutorials.fulfilled, (state, action) => {
+      .addCase(retrieveCustomers.fulfilled, (state, action) => {
         return action.payload;
       })
-      .addCase(updateTutorial.fulfilled, (state, action) => {
+      .addCase(updateCustomer.fulfilled, (state, action) => {
 
         console.log("update state",state);
         console.log("update action",action);
@@ -83,7 +84,7 @@ const tutorialSlice = createSlice({
           ...action.payload,
         };
       })
-      .addCase(deleteTutorial.fulfilled, (state, action) => {
+      .addCase(deleteCustomer.fulfilled, (state, action) => {
         console.log("statestatestatestatestatestatestate",state);
         console.log("actionactionactionactionaction",action);
         let index = state.findIndex(({ id }) => id === action.payload.id);
@@ -98,5 +99,5 @@ const tutorialSlice = createSlice({
   },
 });
 
-const { reducer } = tutorialSlice;
+const { reducer } = customerSlice;
 export default reducer;
