@@ -25,46 +25,47 @@ import { visuallyHidden } from '@mui/utils';
 import Dialog from '../Modal/index'
 
 interface Data {
-  id: number;
-  calories: number;
-  carbs: number;
-  fat: number;
-  name: string;
+  _id: string;
+  email: string;
+  // carbs: number;
+  imageUrl: string;
+  customerName: string;
   protein: number;
 }
 
 function createData(
-  id: number,
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
+  _id: string,
+  customerName: string,
+  email: string,
+  imageUrl: string,
+  // carbs: number,
   protein: number,
 ): Data {
   return {
-    id,
-    name,
-    calories,
-    fat,
-    carbs,
+    _id,
+    email,
+    customerName,
+
+    imageUrl,
+    // carbs,
     protein,
   };
 }
 
 const rows = [
-  createData(1, 'Cupcake', 305, 3.7, 67, 4.3),
-  createData(2, 'Donut', 452, 25.0, 51, 4.9),
-  createData(3, 'Eclair', 262, 16.0, 24, 6.0),
-  createData(4, 'Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData(5, 'Gingerbread', 356, 16.0, 49, 3.9),
-  createData(6, 'Honeycomb', 408, 3.2, 87, 6.5),
-  createData(7, 'Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData(8, 'Jelly Bean', 375, 0.0, 94, 0.0),
-  createData(9, 'KitKat', 518, 26.0, 65, 7.0),
-  createData(10, 'Lollipop', 392, 0.2, 98, 0.0),
-  createData(11, 'Marshmallow', 318, 0, 81, 2.0),
-  createData(12, 'Nougat', 360, 19.0, 9, 37.0),
-  createData(13, 'Oreo', 437, 18.0, 63, 4.0),
+  createData("1", 'Cupcake', "305", "3.7", 67,),
+  createData("2", 'Donut', "452", "25.0", 51,),
+  createData("3", 'Eclair', "262", "16.0", 24,),
+  createData("4", 'Frozen yoghurt', "159", "6.0", 24,),
+  createData("5", 'Gingerbread', "356", "16.0", 49,),
+  // createData("6", 'Honeycomb', "408", "3.2", 87),
+  // createData("7", 'Ice cream sandwich', "237" ,88),
+  createData("8", 'Jelly Bean', "375", "0.", 0),
+  createData("9", 'KitKat', "518", "26.0", 65,),
+  createData("10", 'Lollipop', "392", "0.2", 98,),
+  createData("11", 'Marshmallow', "318", "0", 81,),
+  createData("12", 'Nougat', "360", "19.0", 9,),
+  createData("13", 'Oreo', "437", "18.0", 63,),
 ];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -116,28 +117,28 @@ interface HeadCell {
 
 const headCells: readonly HeadCell[] = [
   {
-    id: 'name',
+    id: '_id',
     numeric: false,
     disablePadding: true,
-    label: 'Dessert (100g serving)',
+    label: '_id',
   },
   {
-    id: 'calories',
-    numeric: true,
+    id: 'email',
+    numeric: false,
     disablePadding: false,
-    label: 'Calories',
+    label: 'email',
   },
   {
-    id: 'fat',
-    numeric: true,
+    id: 'customerName',
+    numeric: false,
     disablePadding: false,
-    label: 'Fat (g)',
+    label: 'customerName',
   },
   {
-    id: 'carbs',
-    numeric: true,
+    id: 'imageUrl',
+    numeric: false,
     disablePadding: false,
-    label: 'Carbs (g)',
+    label: 'imgaeUrl',
   },
   // {
   //   id: 'protein',
@@ -259,8 +260,8 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 }
 export default function EnhancedTable() {
   const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof Data>('calories');
-  const [selected, setSelected] = React.useState<readonly number[]>([]);
+  const [orderBy, setOrderBy] = React.useState<keyof Data>('customerName');
+  const [selected, setSelected] = React.useState<readonly any[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -268,7 +269,19 @@ export default function EnhancedTable() {
 
   // const [customers ,setCustomers] =React.useState()
   //@ts-ignore
-  const customers = useSelector(state => state.customer);
+  const customers = useSelector(state => state.customers.findUser) || [];
+  const [error, setError] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
+  const [value, setValue] = React.useState({});
+
+  // Show loading indicator while data is being fetched
+  React.useEffect(() => {
+    if (customers.length === 0) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [customers]);
 
   const [open, setOpen] = React.useState(false);
   const [childModalOpen, setChildModalOpen] = React.useState(false);
@@ -280,7 +293,7 @@ export default function EnhancedTable() {
 
     // const data =retrieveCustomers()
     console.log("retrieveCustomers()retrieveCustomers()retrieveCustomers()retrieveCustomers()", customers)
-  }, [])
+  }, [dispatch])
 
   const handleOpen = () => {
     setOpen(true);
@@ -290,8 +303,9 @@ export default function EnhancedTable() {
     setOpen(false);
   };
 
-  const handleChildModalOpen = () => {
+  const handleChildModalOpen = (value: any) => {
     setChildModalOpen(true);
+    setValue(value)
   };
 
   const handleChildModalClose = () => {
@@ -309,7 +323,7 @@ export default function EnhancedTable() {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n.id);
+      const newSelected = rows.map((n: any) => n.id);
       setSelected(newSelected);
       return;
     }
@@ -364,90 +378,68 @@ export default function EnhancedTable() {
   );
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-            size={dense ? 'small' : 'medium'}
-          >
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
-            />
-            <TableBody>
-              {visibleRows.map((row, index) => {
-                const isItemSelected = isSelected(row.id);
-                const labelId = `enhanced-table-checkbox-${index}`;
-
-                return (
-                  <TableRow
-                    hover
-                    // onClick={(event) => handleClick(event, row.id)}
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row.id}
-                    selected={isItemSelected}
-                    sx={{ cursor: 'pointer' }}
-                  >
-                    <TableCell padding="checkbox">
-                      {/* <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{
-                          'aria-labelledby': labelId,
-                        }}
-                      /> */}
-                    </TableCell>
-                    <TableCell
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                      padding="none"
-                    >
-                      {row.name}
-                    </TableCell>
-                    <TableCell align="right">{row.calories}</TableCell>
-                    <TableCell align="right">{row.fat}</TableCell>
-                    <TableCell align="right">{row.carbs}</TableCell>
-                    <TableCell align="right">    <button onClick={handleChildModalOpen}>modal</button></TableCell>
+    <>
+      <div>
+        <Box sx={{ width: '100%' }}>
+          <Paper sx={{ width: '100%', mb: 2 }}>
+            <TableContainer>
+              <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>ID</TableCell>
+                    <TableCell align="right">Email</TableCell>
+                    <TableCell align="right">Customer Name</TableCell>
+                    <TableCell align="right">Image URL</TableCell>
+                    <TableCell align="right">Action</TableCell>
                   </TableRow>
-                );
-              })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
-      <Dialog open={childModalOpen} handleClose={handleChildModalClose} />
-      {/* <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      /> */}
-    </Box>
+                </TableHead>
+                <TableBody>
+                  {customers.map((row: any, index: any) => (
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      aria-checked={isSelected(row._id)}
+                      tabIndex={-1}
+                      key={row._id}
+                      sx={{ cursor: 'pointer' }}
+                    >
+                      <TableCell component="th" scope="row">{row._id}</TableCell>
+                      <TableCell align="right">{row.email}</TableCell>
+                      <TableCell align="right">{row.customerName}</TableCell>
+                      <TableCell align="right">{row.imageUrl}</TableCell>
+                      <TableCell align="right">
+                        <button onClick={() => handleChildModalOpen({ isDelete: true, id: row._id })}>Delete</button>
+                        <button onClick={() => handleChildModalOpen({ isDelete: false, id: row._id })}>Update</button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              component="div"
+              count={customers.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Paper>
+
+          <FormControlLabel
+            control={<Switch checked={dense} onChange={handleChangeDense} />}
+            label="Dense padding"
+          />
+        </Box>
+      </div>
+
+      <div>
+        <Dialog open={childModalOpen} handleClose={handleChildModalClose} data={value}>
+          {/* Your modal content here */}
+        </Dialog>
+      </div>
+
+    </>
   );
 }

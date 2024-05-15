@@ -4,7 +4,7 @@ import customerReducer from '../slices/customer'
 
 const reducer ={
     // tutorials: tutorialReducer,
-    customerss:customerReducer
+    customers:customerReducer
 }
 
 const store = configureStore({

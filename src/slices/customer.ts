@@ -60,7 +60,7 @@ export const deleteCustomer = createAsyncThunk(
 // );
 
 const customerSlice = createSlice({
-  name: "customer",
+  name: "customers",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -71,9 +71,9 @@ const customerSlice = createSlice({
         state.push(action.payload);
       })
       .addCase(retrieveCustomers.fulfilled, (state, action) => {
-        console.log("statestatestatestatestatestatestate",state);
-        console.log("actionactionactionactionaction",action);
-        return action.payload;
+        // console.log("statestatestatestatestatestatestate",state);
+        console.log("actionactionactionactionaction",action.payload.data);
+        return action.payload.data;
 
       })
       .addCase(updateCustomer.fulfilled, (state, action) => {
