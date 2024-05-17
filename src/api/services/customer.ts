@@ -22,7 +22,7 @@ const update = (data:any) => {
   return http.put(`/customer/${data.id}`,data);
 };
 
-const TutorialService = {
+const CustomerService = {
   getAll,
   get,
   create,
@@ -30,4 +30,4 @@ const TutorialService = {
   update
 }
 
-export default TutorialService;
+export default CustomerService;

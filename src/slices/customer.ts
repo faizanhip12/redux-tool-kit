@@ -25,7 +25,7 @@ export const retrieveCustomers = createAsyncThunk(
 export const updateCustomer = createAsyncThunk(
   "customer/update",
   async (data) => {
-    console.log("tutorials/update",data)
+    console.log("customer/update",data)
     const res = await CustomerService.update(data);
     console.log("tutorials/update",res.data)
     return res.data;

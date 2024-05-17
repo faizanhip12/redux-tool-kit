@@ -28,7 +28,7 @@ const style = {
 
 };
 
-function Dialog({ open, handleClose, data,onDelete, onUpdateTable  }: any) {
+function Dialog({ open, handleClose, data, onDelete, onUpdateTable }: any) {
   const initialTutorialState = {
     id: null,
     userName: "",
@@ -51,7 +51,9 @@ function Dialog({ open, handleClose, data,onDelete, onUpdateTable  }: any) {
   const dispatch = useDispatch();
 
   //@ts-ignore
-  const customers = useSelector(state => state.customers.findUser) || [];
+  const customers = useSelector(state => state.customers) || [];
+
+  console.log("useSelectoruseSelectoruseSelectoruseSelectoruseSelectoruseSelectoruseSelectoruseSelector", customers)
 
 
   // React.useEffect(() => {
@@ -96,6 +98,8 @@ function Dialog({ open, handleClose, data,onDelete, onUpdateTable  }: any) {
       const findUserById = (id: any) => {
         // Assuming findUser is your array of objects
         const user = customers.find((user: any) => user._id === id);
+
+        console.log("useruseruseruseruseruser", user)
         return user;
       };
       //@ts-ignore
@@ -104,22 +108,26 @@ function Dialog({ open, handleClose, data,onDelete, onUpdateTable  }: any) {
 
       if (data.isDelete == false && data.modalType == "update") {
         console.log("updateupdateupdateupdateupdateupdateupdateupdate")
-        setValue("userName", "yasir");
-        setValue("email", dataa.email);
-        setValue("customerName", dataa.customerName);
-        setValue("imageUrl", dataa.imageUrl);
+        //   setValue("userName", "yasir");
+        //   setValue("email", dataa.email);
+        //   setValue("customerName", dataa.customerName);
+        //   setValue("imageUrl", dataa.imageUrl);
+        //   const formData = new FormData();
+        //   // formData.append('file', data.file[0]);
+        //   formData.append('userName', dataa.userName);
+        //   formData.append('customerName', dataa.customerName);
+        //   // formData.append('email', dataa.email);
 
-
-        //@ts-ignore
-        dispatch(updateCustomer())
-          .unwrap()
-          .then(() => {
-            // navigate("/tutorials");
-            // console.log("data", currentTutorial.id)
-          })
-          .catch((e: any) => {
-            console.log(e);
-          });
+        //  // @ts-ignore
+        //   dispatch(updateCustomer(formData))
+        //     .unwrap()
+        //     .then(() => {
+        //       // navigate("/tutorials");
+        //       // console.log("data", currentTutorial.id)
+        //     })
+        //     .catch((e: any) => {
+        //       console.log(e);
+        //     });
       }
       else {
         console.log("isDeleteisDeleteisDeleteisDeleteisDelete")
@@ -211,7 +219,7 @@ function Dialog({ open, handleClose, data,onDelete, onUpdateTable  }: any) {
   }
 
 
-  
+
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -224,7 +232,7 @@ function Dialog({ open, handleClose, data,onDelete, onUpdateTable  }: any) {
     onDelete(data.id);
     handleClose();
   };
-   
+
 
 
   return (
@@ -237,10 +245,10 @@ function Dialog({ open, handleClose, data,onDelete, onUpdateTable  }: any) {
 
       {
         data.isDelete == true ? (<Box sx={{ ...style }}>
-           <h2 id="child-modal-title">Confirm Delete</h2>
-            <p>Are you sure you want to delete this customer?</p>
-            <Button onClick={handleDelete}>Delete</Button>
-            <Button onClick={handleClose}>Cancel</Button>
+          <h2 id="child-modal-title">Confirm Delete</h2>
+          <p>Are you sure you want to delete this customer?</p>
+          <Button onClick={handleDelete}>Delete</Button>
+          <Button onClick={handleClose}>Cancel</Button>
 
 
           <Button onClick={handleClose}>Close Child Modal</Button>
