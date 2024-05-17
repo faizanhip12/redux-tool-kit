@@ -36,7 +36,7 @@
   /* Custom styling for file input */
   .signup-form .file-upload-container {
     position: relative;
-    overflow: hidden;
+    /* overflow: hidden; */
   }
   
   .signup-form .file-upload {

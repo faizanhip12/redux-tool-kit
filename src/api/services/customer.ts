@@ -14,12 +14,12 @@ const create = (data:any) => {
 };
 const remove = (id:any) => {
   console.log("removeremoveremoveremoveremoveremove",id)
-  return http.delete(`/tutorials/${id}`);
+  return http.delete(`/customer/${id}`);
 };
 
 const update = (data:any) => {
   console.log("update",data)
-  return http.put(`/tutorials/${data.id}`,data);
+  return http.put(`/customer/${data.id}`,data);
 };
 
 const TutorialService = {

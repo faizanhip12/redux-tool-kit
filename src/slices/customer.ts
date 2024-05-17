@@ -13,7 +13,7 @@ export const createCustomer = createAsyncThunk(
 );
 
 export const retrieveCustomers = createAsyncThunk(
-  "customers/retrieve",
+  "customer/retrieve",
   async () => {
 
     const res = await CustomerService.getAll();
@@ -36,6 +36,7 @@ export const updateCustomer = createAsyncThunk(
 export const deleteCustomer = createAsyncThunk(
   "customer/delete",
   async ( id ) => {
+
     await CustomerService.remove(id);
     console.log("res.datares.datares.data",id)
     return { id };
@@ -66,14 +67,16 @@ const customerSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(createCustomer.fulfilled, (state, action) => {
-        // console.log("state createTutorial.fulfilled,",state)
-        // console.log("state createTutorial.fulfilled,",action)
-        state.push(action.payload);
+        console.log("state createTutorial.fulfilled,",state)
+        console.log("state createTutorial.fulfilled,",action.payload)
+        // state.push(action.payload.data);
+        const newCustomers = [...state, action.payload.data]; // Using spread operator
+        return newCustomers;
       })
       .addCase(retrieveCustomers.fulfilled, (state, action) => {
-        // console.log("statestatestatestatestatestatestate",state);
-        console.log("actionactionactionactionaction",action.payload.data);
-        return action.payload.data;
+        console.log("statestatestatestatestatestatestate",state);
+        console.log("actionactionactionactionaction",action.payload.data.customers);
+        return action.payload.data.customers;
 
       })
       .addCase(updateCustomer.fulfilled, (state, action) => {
@@ -81,7 +84,7 @@ const customerSlice = createSlice({
         console.log("update state",state);
         console.log("update action",action);
         const index = state.findIndex(
-          (tutorial) => tutorial.id === action.payload.id
+          (customer) => customer.id === action.payload.id
         );
         state[index] = {
           ...state[index],
@@ -89,8 +92,9 @@ const customerSlice = createSlice({
         };
       })
       .addCase(deleteCustomer.fulfilled, (state, action) => {
-        console.log("statestatestatestatestatestatestate",state);
-        console.log("actionactionactionactionaction",action);
+        //@ts-ignore
+        // console.log("statestatestatestatestatestatestate",state.findIndex());
+        console.log("actionactionactionactionaction",action.payload);
         let index = state.findIndex(({ id }) => id === action.payload.id);
         state.splice(index, 1);
       })

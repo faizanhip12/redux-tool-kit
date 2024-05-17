@@ -28,7 +28,7 @@ function Customer() {
         <>
             <div>
            
-            <button onClick={() => handleChildModalOpen({isDelete:false,id:null})}>Add Customer</button>
+            <button onClick={() => handleChildModalOpen({isDelete:false,id:null,modalType:"create" })}>Add Customer</button>
 
             </div>
 

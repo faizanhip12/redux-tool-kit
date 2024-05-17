@@ -8,7 +8,8 @@ import Modal from '@mui/material/Modal';
 // import { createCustomer } from "../../slices/customer";
 import { createCustomer } from '../../slices/customer'
 import Button from '@mui/material/Button';
-import { retrieveCustomers } from '../../slices/customer'
+import { retrieveCustomers } from '../../slices/customer';
+import { updateCustomer } from '../../slices/customer'
 import { useForm } from "react-hook-form";
 
 
@@ -27,7 +28,7 @@ const style = {
 
 };
 
-function Dialog({ open, handleClose, data }: any) {
+function Dialog({ open, handleClose, data,onDelete, onUpdateTable  }: any) {
   const initialTutorialState = {
     id: null,
     userName: "",
@@ -36,13 +37,14 @@ function Dialog({ open, handleClose, data }: any) {
     imageUrl: ""
   };
 
-  const { handleSubmit, register, formState: { errors } , setValue} = useForm();
+  const { handleSubmit, register, formState: { errors }, setValue } = useForm();
   // const { setValue } = useForm();
   // const [loading, setLoading] = React.useState(true);
   const [signupError, setSignupError] = useState(null); // State to hold sign-up error
   const [customer, setCustomer] = useState(initialTutorialState);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = React.useState(true)
+  const [selectedImage, setSelectedImage] = useState("");
 
   console.log("Dialog")
 
@@ -77,67 +79,90 @@ function Dialog({ open, handleClose, data }: any) {
   // }, [customers]);
 
 
-  // useEffect(() => {
-  //   //@ts-ignore
-  //   dispatch(retrieveCustomers())
-  //   console.log("customers", customers)
+  useEffect(() => {
+    //@ts-ignore
+    dispatch(retrieveCustomers())
+    console.log("customers", customers)
 
-  // }, [dispatch])
+  }, [dispatch])
 
-  // useMemo(() => {
-  //   console.log("useruseruseruseruser")
-  //   if (data.id) {
-  //     // const id = data.id
+  useMemo(() => {
+    console.log("useruseruseruseruser", data)
+    if (data.id) {
+      // const id = data.id
 
-  //     console.log("data.iddata.iddata.iddata.iddata.iddata.iddata.iddata.id")
+      console.log("data.iddata.iddata.iddata.iddata.iddata.iddata.iddata.id")
 
-  //     const findUserById = (id: any) => {
-  //       // Assuming findUser is your array of objects
-  //       const user = customers.find((user: any) => user._id === id);
-  //       return user;
-  //     };
-  //     //@ts-ignore
-  //     const dataa = findUserById(data.id)
-  //     console.log("myDatamyDatamyDatamyDatamyData", dataa)
+      const findUserById = (id: any) => {
+        // Assuming findUser is your array of objects
+        const user = customers.find((user: any) => user._id === id);
+        return user;
+      };
+      //@ts-ignore
+      const dataa = findUserById(data.id)
+      console.log("myDatamyDatamyDatamyDatamyData", dataa)
 
-  //     // if (data.isDelete == false) {
-  //     //   console.log("isDeleteisDeleteisDeleteisDeleteisDelete")
-  //     //   setValue("userName", dataa.userName);
-  //     //   setValue("email", dataa.email);
-  //     //   setValue("customerName", dataa.customerName);
-  //     // }
-
-  //   }
+      if (data.isDelete == false && data.modalType == "update") {
+        console.log("updateupdateupdateupdateupdateupdateupdateupdate")
+        setValue("userName", "yasir");
+        setValue("email", dataa.email);
+        setValue("customerName", dataa.customerName);
+        setValue("imageUrl", dataa.imageUrl);
 
 
-  // }, [data])
+        //@ts-ignore
+        dispatch(updateCustomer())
+          .unwrap()
+          .then(() => {
+            // navigate("/tutorials");
+            // console.log("data", currentTutorial.id)
+          })
+          .catch((e: any) => {
+            console.log(e);
+          });
+      }
+      else {
+        console.log("isDeleteisDeleteisDeleteisDeleteisDelete")
+        // setValue("userName", dataa.userName);
+        // setValue("email", dataa.email);
+        // setValue("customerName", dataa.customerName);
+      }
+
+    }
+
+
+
+  }, [data])
+
+
+
   // useEffect(() => {
   //   //@
   //   dispatch(retrieveCustomers()); // Fetch customers on component mount
   // }, [dispatch]);
 
-  useEffect(() => {
-    console.log("useEffectuseEffectuseEffectuseEffectuseEffectuseEffectuseEffectuseEffect")
-    if (data.id && data.isDelete === false) {
-      const findUserById = (id: any) => {
-        const user = customers.find((user: any) => user._id === id);
-        return user;
-      };
+  // useEffect(() => {
+  //   console.log("useEffectuseEffectuseEffectuseEffectuseEffectuseEffectuseEffectuseEffect")
+  //   if (data.id && data.isDelete === false) {
+  //     const findUserById = (id: any) => {
+  //       const user = customers.find((user: any) => user._id === id);
+  //       return user;
+  //     };
 
-      // Simulating asynchronous data fetching with setTimeout
-      const user = findUserById(data.id);
-      setTimeout(() => {
-      
-        if (user) {
-          console.log("useruseruseruseruseruseruseruseruseruser",user)
-          setValue("userName", user.userName);
-          setValue("email", user.email);
-          setValue("customerName", user.customerName);
-          setLoading(false);
-        }
-      }, 1000);
-    }
-  }, [data, customers, setValue]); 
+  //     // Simulating asynchronous data fetching with setTimeout
+  //     const user = findUserById(data.id);
+  //     setTimeout(() => {
+
+  //       if (user) {
+  //         console.log("useruseruseruseruseruseruseruseruseruser", user)
+  //         setValue("userName", user.userName);
+  //         setValue("email", user.email);
+  //         setValue("customerName", user.customerName);
+  //         setLoading(false);
+  //       }
+  //     }, 1000);
+  //   }
+  // }, [data, customers, setValue]);
 
 
 
@@ -173,6 +198,7 @@ function Dialog({ open, handleClose, data }: any) {
         });
 
         setSubmitted(true);
+        onUpdateTable()
         console.log("customercustomercustomercustomer", customer)
       })
       .catch((e: any) => {
@@ -185,6 +211,21 @@ function Dialog({ open, handleClose, data }: any) {
   }
 
 
+  
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setSelectedImage(URL.createObjectURL(file));
+    }
+  };
+
+  const handleDelete = () => {
+    onDelete(data.id);
+    handleClose();
+  };
+   
+
 
   return (
     <Modal
@@ -196,7 +237,10 @@ function Dialog({ open, handleClose, data }: any) {
 
       {
         data.isDelete == true ? (<Box sx={{ ...style }}>
-          <h2 id="child-modal-title">delete</h2>
+           <h2 id="child-modal-title">Confirm Delete</h2>
+            <p>Are you sure you want to delete this customer?</p>
+            <Button onClick={handleDelete}>Delete</Button>
+            <Button onClick={handleClose}>Cancel</Button>
 
 
           <Button onClick={handleClose}>Close Child Modal</Button>
@@ -249,6 +293,7 @@ function Dialog({ open, handleClose, data }: any) {
                   required: "Image is required",
                 })}
                 className="file-input"
+                onChange={handleImageChange}
               />
               <div className="file-upload">
                 Upload Image
@@ -267,6 +312,12 @@ function Dialog({ open, handleClose, data }: any) {
           {/* <p id="child-modal-description">
           Lorem ipsum, dolor sit amet consectetur adipisicing elit.
         </p> */}
+          {selectedImage && (
+            <div>
+              <h2>Selected Image:</h2>
+              <img src={selectedImage} alt="Selected" style={{ width: '300px', height: 'auto' }} />
+            </div>
+          )}
           <Button onClick={handleClose}>Close Child Modal</Button>
         </Box>)
       }
