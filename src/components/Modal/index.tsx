@@ -30,7 +30,7 @@ const style = {
 
 function Dialog({ open, handleClose, data, onDelete, onUpdateTable }: any) {
   const initialTutorialState = {
-    id: null,
+    _id: null,
     userName: "",
     email: "",
     customerName: "",
@@ -108,10 +108,11 @@ function Dialog({ open, handleClose, data, onDelete, onUpdateTable }: any) {
 
       if (data.isDelete == false && data.modalType == "update") {
         console.log("updateupdateupdateupdateupdateupdateupdateupdate")
-        //   setValue("userName", "yasir");
-        //   setValue("email", dataa.email);
-        //   setValue("customerName", dataa.customerName);
-        //   setValue("imageUrl", dataa.imageUrl);
+        setValue("_id",dataa._id);
+        setValue("userName", "yasir");
+        setValue("email", dataa.email);
+        setValue("customerName", dataa.customerName);
+        // setValue("imageUrl", dataa.imageUrl);
         //   const formData = new FormData();
         //   // formData.append('file', data.file[0]);
         //   formData.append('userName', dataa.userName);
@@ -184,34 +185,73 @@ function Dialog({ open, handleClose, data, onDelete, onUpdateTable }: any) {
 
 
   // Handle form submission
-  const onSubmit = async (data: any) => {
-    console.log("formDataformDataformDataformDataformData", data)
-    const formData = new FormData();
-    formData.append('file', data.file[0]);
-    formData.append('userName', data.userName);
-    formData.append('customerName', data.customerName);
-    formData.append('email', data.email);
-    //@ts-ignore
-    dispatch(createCustomer(formData))
-      .unwrap()
-      .then((data: any) => {
-        console.log(data);
-        setCustomer({
-          id: data.id,
-          userName: data.userName,
-          customerName: data.customerName,
-          email: data.email,
-          imageUrl: data.imageUrl
+  const onSubmit = async (dat: any) => {
+    console.log("formData for submit and update", dat._id)
+   
 
+    if (data.modalType == "update") {
+      const formData:any = new FormData();
+
+      console.log("dat._iddat._iddat._iddat._iddat._iddat._iddat._id", dat._id)
+
+      // formData.append('_id', dat._id);
+      formData.append('userName', dat.userName);
+      formData.append('customerName', dat.customerName);
+      formData.append('email', dat.email);
+      console.log("FormData Update:");
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
+
+      // console.log("formDau",formData)
+      //@ts-ignore
+      dispatch(updateCustomer(formData))
+        .unwrap()
+        .then((data: any) => {
+          console.log(data);
+          setCustomer({
+            _id:data._id,
+            userName: data.userName,
+            customerName: data.customerName,
+            email: data.email,
+            imageUrl: data.imageUrl
+
+          });
+
+          setSubmitted(true);
+          onUpdateTable()
+          console.log("customercustomercustomercustomer", customer)
+        })
+        .catch((e: any) => {
+          console.log(e);
         });
+    }
+    else {
 
-        setSubmitted(true);
-        onUpdateTable()
-        console.log("customercustomercustomercustomer", customer)
-      })
-      .catch((e: any) => {
-        console.log(e);
-      });
+      // formData.append('file', data.file[0]);
+      const formData:any = new FormData();
+      console.log("forCreate")
+      formData.append('file', dat.file[0]);
+      formData.append('userName', dat.userName);
+      formData.append('customerName', dat.customerName);
+      formData.append('email', dat.email);
+      console.log("forCreate",formData)
+      console.log("FormData content:");
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
+  
+      // @ts-ignore
+      // dispatch(createCustomer(formData))
+      //   .unwrap()
+      //   .then(() => {
+      //     // navigate("/tutorials");
+      //     // console.log("data", currentTutorial.id)
+      //   })
+      //   .catch((e: any) => {
+      //     console.log(e);
+      //   });
+    }
 
 
 
@@ -275,6 +315,14 @@ function Dialog({ open, handleClose, data, onDelete, onUpdateTable }: any) {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                   message: "Invalid email address"
                 }
+              })}
+            />
+
+
+            <input
+              type="_id"
+              placeholder="_id"
+              {...register("_id", {
               })}
             />
             {/* {errors.email && <p className="error-message">{errors.email.message}</p>} */}

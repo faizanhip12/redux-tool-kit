@@ -18,8 +18,8 @@ const remove = (id:any) => {
 };
 
 const update = (data:any) => {
-  console.log("update",data)
-  return http.put(`/customer/${data.id}`,data);
+  console.log("update api")
+  return http.put(`/customer/6647f66b567d7ccfcf2f953a`,data);
 };
 
 const CustomerService = {

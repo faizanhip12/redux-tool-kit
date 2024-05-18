@@ -81,6 +81,8 @@ const customerSlice = createSlice({
       })
       .addCase(updateCustomer.fulfilled, (state, action) => {
 
+        console.log("updateCustomerupdateCustomerupdateCustomerupdateCustomerupdateCustomerupdateCustomer")
+
         console.log("update state",state);
         console.log("update action",action);
         const index = state.findIndex(
